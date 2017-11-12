@@ -33,6 +33,9 @@ mkdir rm vim
 强制删除分支：git branch -D <name>
 当新建出来的分支还没合并就要直接删除的时候会提示分支还没合并。这里面要用-D进行强制删除
 
+暂存bug分支：git stash
+
+
 ### 命令
 1. 创建分支 `git branch dev`
 切换分支 `git checkout dev`

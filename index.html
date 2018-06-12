@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>专题研究—Mr Wang</title>
+  <meta name="description" content="Description">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <link rel="stylesheet" href="//unpkg.com/docsify/themes/vue.css">
+  <style type="text/css">
+   .app-nav {
+     position: fixed;
+   }
+  .app-nav li ul{
+    overflow-y:auto
+  }
+
+
+  .markdown-section table tr,.markdown-section table td{
+    border:0px
+  }
+  </style>
+</head>
+<body>
+  <div id="app"></div>
+</body>
+<script>
+
+String.prototype.endWith=function(s){
+  if(s==null||s==""||this.length==0||s.length>this.length)
+     return false;
+  if(this.substring(this.length-s.length)==s)
+     return true;
+  else
+     return false;
+  return true;
+ }
+
+  window.$docsify = {
+    name: '</span>研发目录</span>',
+    repo: 'http://www.strongsoft.net:6280/devx-wiki/docs',//右上角地址
+    coverpage: false,
+    loadNavbar: true,
+    auto2top: true,
+    loadSidebar: true,
+    autoHeader: false,
+    //homepage: 'api_summary.md',
+    maxLevel: 4,
+    subMaxLevel: 2,
+    formatUpdated: '{YYYY}-{MM}-{DD} {HH}:{mm}',
+    externalLinkTarget: '_self',
+    search: {
+      noData: {
+        '/': 'No results!'
+      },
+      paths:'auto',
+    placeholder: {
+        '/': '查找'
+      }
+    },
+    plugins: [
+      function(hook, vm) {
+        hook.beforeEach(function (html) {
+          var url = '/' + vm.route.file
+          var editHtml = '[:memo: 编辑此文档](' + url + ')\n'
+
+          return '最后修改: {docsify-updated}\n\n'+html
+            + '\n\n'
+            + '<div style="border-top:1px solid #eee;padding-top:10px">最后修改: {docsify-updated}'+editHtml+'</div>'
+        })
+      }
+    ]
+  }
+
+  // if (/\//.test(location.href)) {
+  //   location.href = "http://localhost:3000/#/home"
+  // }else if (/\/#\//.test(location.href)) {
+  //   location.href = location.href.replace('/#/', '/#/home')
+  // }
+
+
+
+</script>
+<script src="//unpkg.com/docsify/lib/docsify.min.js"></script>
+<script src="//unpkg.com/docsify/lib/plugins/search.min.js"></script>
+
+<!-- <script src="static/docsify.min.js"></script>
+<script src="static/search.js"></script> -->
+<script src="//unpkg.com/prismjs/components/prism-json.min.js"></script>
+<script src="//unpkg.com/prismjs/components/prism-csharp.min.js"></script>
+<script src="//unpkg.com/prismjs/components/prism-sql.min.js"></script>
+<script src="//unpkg.com/prismjs/components/prism-bash.min.js"></script>
+<script src="//unpkg.com/prismjs/components/prism-powershell.min.js"></script>
+<script src="//unpkg.com/prismjs/components/prism-ini.min.js"></script>
+<script src="//unpkg.com/docsify/lib/plugins/zoom-image.min.js"></script>
+</html>

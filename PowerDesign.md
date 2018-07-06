@@ -178,4 +178,12 @@ End Sub
 
 ![](./image/powerdesign1.png)
 
-### 数据库导入powerdesign
+## 数据库导入powerdesign
+
+## 版本控制
+
+### 连接仓库的时间报错
+![](./image/powerdesign3.png)
+解决方案：
+![](./image/powerdesign2.png)
+记得默认用户为大写ADMIN而非admin，Password:默认为空，这样就可以通过PD正确连接数据库了

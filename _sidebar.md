@@ -3,7 +3,7 @@
 * [C#](./Csharp/Csharp.md)
 * [git](./git/git.md)
 * [asp.netcore2](./core/netcore.md)
-* [混合云](./android/环境安装.md)
+* [app](./android/环境安装.md)
 * [oracle](./oracle/Oracle.md)
 * [sqlserver](./sqlserver/四大排序.md)
 * [redis](./redis/redis.md)

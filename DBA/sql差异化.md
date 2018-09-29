@@ -130,3 +130,22 @@ select value1,value2,value4 from table2
 Insert Into table1(value1,value2,value3)
 select * from st;
 ```
+## top
+```sql
+--Oracle
+--Oracle没有top，改用为RowNum来处理这种需种
+select * from  table1 where rownum<10 order by id desc;
+
+--Sqlserver
+select top 10 * from table1 order by id desc;
+--关于top在sqlserver的性能影响，请关注性能篇top
+```
+[top性能](https://www.cnblogs.com/lykbk/p/rgrtrrtrtrt34343434343.html)
+
+## GUID
+```sql
+--Oracle
+select sys_guid() from dual;
+--Sqlserver
+select newid()
+```

@@ -32,11 +32,11 @@ https://github.com/coreybutler/nvm-windows/releases
 找到nvm安装根目录，一般在C://Users/Administrator/AppData/Roming/nvm，修改settings.txt的内容
 
 ````
-root: C:\Users\Administrator\AppData\Roaming\nvm 
-path: C:\Program Files\nodejs 
-arch: 64 
-proxy: none 
-node_mirror: https://npm.taobao.org/mirrors/node/ 
+root: C:\Users\Administrator\AppData\Roaming\nvm
+path: C:\Program Files\nodejs
+arch: 64
+proxy: none
+node_mirror: https://npm.taobao.org/mirrors/node/
 npm_mirror: https://npm.taobao.org/mirrors/npm/
 ````
 

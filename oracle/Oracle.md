@@ -1,8 +1,6 @@
-# 数据库进阶梳理
+# Oracle
 
-## Oracle
-
-### 登陆
+## 登陆
 
 1. 登陆cmd
 `sqlplus / as sysdba`
@@ -15,11 +13,11 @@
 2. 连接
 `conn `
 
-### 权限
+## 权限
 
 `grant dba,connect,resource to strong_fjxm`
 
-### 导入导出
+## 导入导出
 
 #### exp imp
 exp
@@ -29,7 +27,7 @@ exp
 ```
 imp
 
-#### 数据泵(expdp impdp)
+### 数据泵(expdp impdp)
 
 1. expdp
 ```sql
@@ -80,39 +78,50 @@ impdp strong_hn2/strong@47.95.15.215/orcl directory=data_pump_dir dumpfile=STRON
 
 　　eg：grant read,write on directory backup_path to orcldev; --将对路径的读写权限分配各orcldev用户。
 
-### 跨数据库 link
+## 跨数据库 link
+
+
+
+
+1. 创建
 ```sql
+--创建dblink的用户有对应的数据库权限
+--create public database link 或者create database link  可以使用
+--grant create public database link,create database link to myAccount; 来授权.
 create public database link dblink_fjxm
 connect to strongwater identified by strongwater
 using '(DESCRIPTION =
-
 (ADDRESS_LIST =
-
-(ADDRESS = (PROTOCOL = TCP)(HOST = 192.168.116.200)(PORT = 1521))
-
+   (ADDRESS = (PROTOCOL = TCP)(HOST = 192.168.116.200)(PORT = 1521)
+   )
 )
-
-(CONNECT_DATA =
-
-(SERVICE_NAME = orcl)
-
-)
-
+    (CONNECT_DATA =(SERVICE_NAME = orcl))
 )';
 ```
 
 1. 查询
+```sql
+select owner,object_name from dba_objects where object_type='DATABASE LINK';
+```
+或
+```sql
+select * from dba_db_links;
+```
 
 2. 删除
+```sql
+drop public database link dblinkname;
+```
 
 
+## 同义词
 
-### 同义词
+1. 创建
 ```sql
 create synonym st_stbprp_b for st_stbprp_b@dblink_fjxm;
 ```
 
-``` sql 
+``` sql
 当前用户下全有表的同义词（全库同义词）
 declare
        --类型定义
@@ -134,9 +143,22 @@ select A.* from all_tables A where A.owner ='STRONG_HN'  AND EXISTS(SELECT TABLE
  
 ```
 
+1. 查询
+```sql
+--当前用户下的
+select * from user_synonyms;
+--当前数据库实例下所有的
+select * from dba_synonyms
+```
+
+2. 删除
+```sql
+drop public synonym table_name;
+```
 
 
-### 自定义类(TYPE)
+
+## 自定义类(TYPE)
 
 #### object类型
 
@@ -171,9 +193,61 @@ create or replace type typ_warning_station Force as object(
 
 ```
 
-### 触发器
+## 触发器
 
-### 函数
+```sql
+--examples
+--触发器分成好几种，这边只是简单写一下表自增的序列触发器demo(后续会有专题)
+create trigger tri_ss_rescue_police before insert on ss_rescue_police
+for each row
+begin
+  select seq_ss_rescue_police.nextval into:new.POLICE_ID from dual
+end;
+```
+
+## 序列
+
+```sql
+--examples
+create sequence SEQ_ss_rescue_police
+　　increment by 1
+　　start with 1
+　　minvalue 1 nomaxvalue
+select SEQ_ss_rescue_police.nextval from  dual
+
+--创建成功后可以查询试一下
+select SEQ_ss_rescue_police.nextval from  dual
+
+--语法
+--创建
+CREATE SEQUENCE [user.]sequence_name
+    [increment by n]
+    [start with n]
+    [maxvalue n | nomaxvalue]
+    [minvalue n | nominvalue];
+    INCREMENT BY： --指定序列号之间的间隔，该值可为正的或负的整数，但不可为0。序列为升序。忽略该子句时，缺省值为1。
+    START WITH：--指定生成的第一个序列号。在升序时，序列可从比最小值大的值开始，缺省值为序列的最小值。对于降序，序列可由比最大值小的值开始，缺省值为序列的最大值。
+    MAXVALUE：--指定序列可生成的最大值。
+    NOMAXVALUE：--为升序指定最大值为1027，为降序指定最大值为-1。
+    MINVALUE：--指定序列的最小值。
+    NOMINVALUE：--为升序指定最小值为1。为降序指定最小值为-1026。
+
+--修改
+ALTERSEQUENCE [user.]sequence_name
+    [INCREMENT BY n]
+    [MAXVALUE n| NOMAXVALUE ]
+    [MINVALUE n | NOMINVALUE]；
+    修改序列可以：
+    1) 修改未来序列值的增量。
+    2) 设置或撤消最小值或最大值。
+    3) 转变缓冲序列的数目。
+    4) 指定序列号是否是有序。
+    5) 删除序列命令
+--删除
+DROP SEQUENCE [user.]sequence_name；
+```
+
+## 函数
 
 ```sql
 --语法如下:
@@ -190,7 +264,7 @@ var v1 varchar2(100)
 exec :v1:=function_name
 ```
 
-### 存储过程
+## 存储过程
 
 #### 参数
 
@@ -203,24 +277,24 @@ exec :v1:=function_name
 3. in out: 表示高参数可以向该过程中传递值，也可以将某个值传出去
 
 #### 执行
+
  三种方式：
- 1.execute
+
+ 1. execute
 
 在pl/sql里面的sql windows窗体下直接执行`exec pro_1();`是会报错的。因为`exec pro_1()`被当成执行体，而执行体必须在命令窗体（command windows）进行执行，把语句当成一个整体，也就是plsql块。
 所以在sql windows窗体下执行为报错
 ![](../read-only/oracle_procedure_01.png)
 
- 2.call
+ 2. call
 在sql windows的执行窗体中只能用 `call pro_1()`,这样执行就是把`call pro_1()`当成一个sql语句
-
 ```sql
 在命令窗口中两种方式都可以调用
 exec pro_1(); --这样，相当于执行一个plsql块，即把”OUT_TIME()“看成plsql块调用。
 call pro_1(); --这样，相当于，但用一个方法“OUT_TIME()”，把“OUT_TIME()”看成一个方法。
 ```
 
- 3.直接执行
-
+ 3. 直接执行
 ```sql
 begin
 pro_1();

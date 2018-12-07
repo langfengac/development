@@ -83,3 +83,6 @@ nvm ls   // 查看目前已经安装的版本
 nvm install 6.10.0  // 安装指定的版本的nodejs
 nvm use 6.10.0  // 使用指定版本的nodejs
 ````
+
+查看nodejs的版本
+https://nodejs.org/docs/

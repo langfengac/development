@@ -1,5 +1,7 @@
  # dotnet core
 
+官方文档：https://docs.microsoft.com/zh-cn/aspnet/core/?view=aspnetcore-2.1
+
 ## 流程
 
 1. 下载SDK或者下载vs2017以上版本

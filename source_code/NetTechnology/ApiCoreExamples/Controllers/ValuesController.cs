@@ -3,16 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 
 namespace ApiCoreExamples.Controllers
 {
     [Route("api/[controller]")]
     public class ValuesController : Controller
     {
+        private IConfiguration _configuration; 
+        public ValuesController(IConfiguration configuration)
+        {
+
+            this._configuration = configuration;
+        }
+
         // GET api/values
         [HttpGet]
         public IEnumerable<string> Get()
         {
+            //获取appconfig对像
+           
             return new string[] { "value1", "value2" };
         }
 

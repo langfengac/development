@@ -29,10 +29,7 @@ namespace MvcCoreExamples
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
           
-            for (int i = 0; i < 60; i++)
-            {
-
-            }
+           
             if (env.IsDevelopment())
             {
                 app.UseBrowserLink();

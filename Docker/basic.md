@@ -41,8 +41,47 @@
 docker stop 停止运行容器
 docker rm container_id (container_id可以通过 docker ps -a查看，例如3e1b106c25f3)
 ```
+## DockerFile
+
+```cs
+
+1. from
+
+2. label
+
+3. run
+
+4. workdir
+如果文件名不存在会自动创建文件，并cd到这个文件
+进入一个文件尽是用mrokdir，少用run cd,以及workdir 尽量使用绝对目录
+
+5. ADD and COPY区别
+add能添加到根目录后，还带有解压的功能
+大部情况下copy优于add，因为add还有额外的功能，
+添加本地文件到docker的时候用add或copy，但如果是远程文件的话，可能用run curl或wget
+
+6. ENV 声明一个常量
+examples:
+ENV MYSQL_VERSION 5.6
+RUN agp-get install -y mysql-server="${MYSQL_VERSION}" && rm -rf /var/lib/apt/list/*
+
+7. VOLUME and EXPOSE
+
+8. CMD and ENTRYPOINT
+
+```
+## Shell 和 Exec 格式
 
 ## Volume
+
+持持化方案
+
+一、基于本地文件系统的存储持久化
+
+
+
+
+二、远程第三方存储如aws NAS
 
 提供独立与容器之外的持久化的存储。
 之前我们运行容器，在`stop`
@@ -55,7 +94,14 @@ docker rm container_id (container_id可以通过 docker ps -a查看，例如3e1b
 2. 时速云
 3. aliyun
 
+## exec 进入容器内部
+docker exec -it 12i32342ew32 /bin/bash
 
+注:docker 运行docker容器对像时，如果容器本身没什么任何事务可以做，就会自己关掉，例如：`docker run ubuntu -d` 设为后台运行了，但是你在查看docker ps -a的时候发现这个容器自动关了，所以要保持一个前台运行的，要这么做：
+`docker run -d --name test001 ubuntu -c "while "`
+
+进入docker容器后(docker exec -it test001 /bin/sh)，运行ping发现找不到这个命令，要先安装
+先apt-get update 然后再apt-get install inetutils-ping
 
 ## mysql 镜像引入 并开启远程
 
@@ -101,3 +147,13 @@ ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'newpassw
 flush privileges;
 ```
 
+## 发布程序
+
+```dos
+FROM microsoft/dotnet:2.1-aspnetcore-runtime
+WORKDIR /app
+COPY . .
+EXPOSE 80
+ENTRYPOINT ["dotnet", "WebApplication2.dll"]
+```
+然后运行命令容器 `docker run --name=aspnetcoredocker1 -p 7778:80 -d  wang/core`

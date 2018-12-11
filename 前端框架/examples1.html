@@ -1,0 +1,53 @@
+<html>
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <h4>父子组件间的简单交互</h4>
+    <div id='app'>
+        请输入：<input type="text" @keydown.13='addlist' v-model="name" />（直接回车）
+        <ul>
+            <todo-item v-bind:content="item" :id='index' @delete="deletelist" v-for="(item,index) in list"> <!-- 这里的delete="deletelist"是监控子组件的事件并触发自己的事件 -->
+            </todo-item>
+        </ul>
+    </div>
+</body>
+</html>
+<script>
+    //全局组件 component 这个不加s
+    // Vue.component('TodoItem', {
+    //     props: ['content'],
+    //     template: '<li>{{content.text}}</li>'
+    // })
+    var app = new Vue({
+        el: '#app',
+        data: {
+            name: '',
+            list: []
+        },
+        //局部组件 components 这个加s
+        components: {
+            TodoItem: {
+                props: ['content', 'id'], //index这个是数据的下标
+                template: '<li @click="handleDelteTodo">{{content.text}}</li>',
+                methods: {
+                    handleDelteTodo() {
+                        this.$emit('delete', this.id)//触发事件给父级组件
+                    }
+                }
+            }
+        },
+        methods: {
+            addlist() {
+                console.log(this.name)
+                this.list.push({
+                    text: this.name
+                });
+                this.name = ''
+            },
+            deletelist(id) {
+                this.list.splice(id, 1)
+            }
+        }
+    })
+</script>

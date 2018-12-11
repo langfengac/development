@@ -1,6 +1,13 @@
 # git
 
-## 概述
+## 安装
+
+git官网下载gitbash for windows进行安装
+配置本机账号等信息
+```` cs
+$ git config --global user.name "Your Name"
+$ git config --global user.email "email@example.com"
+````
 
 ### 暂存区
 
@@ -119,5 +126,15 @@ git diff
 
 
 ## 工作流
+
+## 密钥管理器 ssh-agent
+
+如果有两个或以上的密钥最好用这个进行管理，避免每个push填自己的账号密码，它是以ssh方式的。
+
+#### github
+![图片一](../image/git01.png)
+#### gitlab
+![图片一](../image/git02.png)
+
 
 
